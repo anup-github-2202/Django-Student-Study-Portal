@@ -1,0 +1,5 @@
+Package Installed:
+1. django-crispy-forms
+2. youtube-search-python
+3. requests
+4. wikipedia

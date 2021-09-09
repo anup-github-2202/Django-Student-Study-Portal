@@ -1,0 +1,98 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if not login_required_msg %}
+<div class="container">
+    {% if unfinished_homeworks %}
+    <h1>Unfinished Homework</h1>
+    <table class="table table-striped table-bordered table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Due</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for homework in unfinished_homeworks %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{homework.subject}}</td>
+                <td>{{homework.title}}</td>
+                <td>{{homework.description}}</td>
+                <td>{{homework.due}}</td>
+
+                <td>
+                    <a class="text-primary" href="{% url 'dashboard:update_homework' homework.id %}">
+                       Move It To Finished Homework
+                    </a>
+                </td>
+                <td><a href="{% url 'dashboard:delete_homework' homework.id %}"><i class="fa fa-trash fa-2x"></i></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+<br><br>
+    {% if finished_homeworks %}
+    <h1>Finished Homework</h1>
+    <table class="table table-striped table-bordered table-hover table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Due</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for homework in finished_homeworks %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{homework.subject}}</td>
+                <td>{{homework.title}}</td>
+                <td>{{homework.description}}</td>
+                <td>{{homework.due}}</td>
+
+                <td>
+                    <a class="text-primary" href="{% url 'dashboard:update_homework' homework.id %}">
+                        Move it to Un-finished Homework
+                    </a>
+                </td>
+                <td><a href="{% url 'dashboard:delete_homework' homework.id %}"><i class="fa fa-trash fa-2x"></i></a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if homeworks_done %}
+    <h4> No HomeWork Lefts !!!</h4><br><br>
+    {% endif %}
+</div>
+<div class=" container">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Create Homework</legend>
+            {{forms|crispy}}
+        </fieldset>
+        <div class="form-group">
+            <button href="" class="btn btn-outline-info" type="submit">
+                Create
+            </button>
+        </div>
+    </form>
+</div>
+
+
+{% endif %}
+{% endblock content %}

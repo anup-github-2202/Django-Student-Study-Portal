@@ -1,0 +1,78 @@
+{% extends 'dashboard/base.html' %} {% load static %}
+{% load crispy_forms_tags%}
+{% block content %}
+{% if not login_required_msg %}
+<section class="text-center">
+
+    <div class="container">
+        <h2>ToDos Report</h2>
+        <table class="table table-striped table-bordered table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for todo in todos %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{todo.title}}</td>
+                    <td>
+                       {% if todo.is_finished %}
+                            ToDo is finished
+                        {% else %}
+                            ToDo is pending
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if not todos_left %}
+        <h3>All To dos are completed!!!!</h3>
+        {% endif %}
+
+        <a href="{% url 'dashboard:todo' %}" class="btn btn-danger">To Do</a>
+        <br><br>
+        <h2>Due Homeworks</h2>
+        <table class="table table-striped table-bordered table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Due</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for homework in homeworks %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{homework.subject}}</td>
+                    <td>{{homework.title}}</td>
+                    <td>{{homework.description}}</td>
+                    <td>{{homework.due}}</td>
+
+                    <td>
+                      {% if homework.is_finished %}
+                            Homework is finished
+                        {% else %}
+                            Homework is pending
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if not homeworks_left %}
+        <h3>All To homeworks are completed!!!!</h3>
+        {% endif %}
+        <a href="{% url 'dashboard:homework' %}" class="btn btn-danger">Homeworks</a>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}
